@@ -40,10 +40,12 @@ class InstagramBot():
 
 
     def hashtaglike(self,num):
+        from tqdm import tqdm
         count = 0
         time.sleep(self.sleep)
         script = '#react-root > section > main > article > div:nth-child(3) > div > div:nth-child(1) > div:nth-child(1) > a > div > div._9AhH0'
         self.browser.execute_script(f'document.querySelector("{script}").click()')
+        pbar = tqdm(total = num)
         while num > count:
             time.sleep(random.randint(3,9))
             hearth = 'body > div._2dDPU.vCf6V > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.fr66n > button'
@@ -52,6 +54,8 @@ class InstagramBot():
             next_page = 'body > div._2dDPU.vCf6V > div.EfHg9 > div > div > a._65Bje.coreSpriteRightPaginationArrow'
             self.browser.execute_script(f'document.querySelector("{next_page}").click()')
             count += 1
+            pbar.update(1)
+        pbar.close()
 
 
     def like(self,num):
