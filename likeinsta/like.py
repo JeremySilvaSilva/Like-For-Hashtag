@@ -12,7 +12,7 @@ BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 class InstagramBot():
     def __init__(self,email,password):
         options = webdriver.ChromeOptions()
-        options.add_extension('/home/jeremyandress/Desktop/instagram.py/movil.crx')
+        options.add_extension(os.getcwd() +'/movil.crx')
         self.browser = webdriver.Chrome(BASE_PATH+'/chromedriver',chrome_options=options)
         self.email = email
         self.password = password
@@ -35,7 +35,6 @@ class InstagramBot():
         # self.like(0)
 
     def searchhashtag(self,hashtag):
-        self.browser.execute_script("document.querySelector('#react-root > section > nav.NXc7H.f11OC > div > div > div.KGiwt > div > div > div:nth-child(2) > a').click()")
         self.browser.get(f'https://www.instagram.com/explore/tags/{hashtag}/')
 
 
@@ -47,14 +46,20 @@ class InstagramBot():
         self.browser.execute_script(f'document.querySelector("{script}").click()')
         pbar = tqdm(total = num)
         while num > count:
-            time.sleep(random.randint(3,9))
-            hearth = 'body > div._2dDPU.vCf6V > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.fr66n > button'
-            self.browser.execute_script(f'document.querySelector("{hearth}").click()')
-            time.sleep(random.randint(3,9))
-            next_page = 'body > div._2dDPU.vCf6V > div.EfHg9 > div > div > a._65Bje.coreSpriteRightPaginationArrow'
-            self.browser.execute_script(f'document.querySelector("{next_page}").click()')
-            count += 1
-            pbar.update(1)
+            try:
+                time.sleep(random.randint(3,9))
+                hearth = 'body > div._2dDPU.vCf6V > div.zZYga > div > article > div.eo2As > section.ltpMr.Slqrh > span.fr66n > button'
+                self.browser.execute_script(f'document.querySelector("{hearth}").click()')
+                time.sleep(random.randint(3,12))
+                next_page = 'body > div._2dDPU.vCf6V > div.EfHg9 > div > div > a._65Bje.coreSpriteRightPaginationArrow'
+                self.browser.execute_script(f'document.querySelector("{next_page}").click()')
+                count += 1
+                pbar.update(1)
+            except:
+                self.searchhashtag('instachile')
+                time.sleep(random.randint(3,15))
+                script = '#react-root > section > main > article > div:nth-child(3) > div > div:nth-child(1) > div:nth-child(1) > a > div > div._9AhH0'
+                self.browser.execute_script(f'document.querySelector("{script}").click()')
         pbar.close()
 
 
@@ -69,10 +74,8 @@ class InstagramBot():
                 js = f'button = document.querySelector("{script}"); {butt}'
                 if not self.browser.execute_script(js):
                     time.sleep(random.randint(1,3))
-                    print('Give Like')
                     js = f'button = document.querySelector("{script}").click()'
                     self.browser.execute_script(js)
-                print(f'--Hecho-- {likes}')
             except Exception as e:
                 if count < 10:
                     print(f'Error : {e}')

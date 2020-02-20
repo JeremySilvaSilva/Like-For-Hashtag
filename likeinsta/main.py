@@ -12,7 +12,7 @@ BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 class InstagramBot():
     def __init__(self,email,password):
         options = webdriver.ChromeOptions()
-        options.add_extension('/home/jeremyandress/Desktop/instagram.py/movil.crx')
+        options.add_extension(os.getcwd() +'/movil.crx')
         self.browser = webdriver.Chrome(BASE_PATH+'/chromedriver',chrome_options=options)
         self.email = email
         self.password = password
@@ -31,18 +31,11 @@ class InstagramBot():
 
         time.sleep(self.sleep)
 
-        notify = self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav[2]/div/div/div[2]/div/div/div[3]')
-        notify.click()
-        # image = self.browser.find_element_by_xpath('//*[@id="react-root"]/form/input')
-        # image.send_keys('/home/jeremyandress/Pictures/paprika.jpg')
+        # notify = self.browser.find_element_by_xpath('//*[@id="react-root"]/section/nav[2]/div/div/div[2]/div/div/div[3]')
+        # notify.click()
+        imageInput = self.browser.find_element_by_xpath('//*[@id="react-root"]/form/input')
 
-        nani = self.browser.file_detector = UselessFileDetector()
-        print(nani)
-
-        article = self.browser.find_elements_by_xpath('//*[@id="react-root"]/section/main/section/div/div[1]/div/article[1]')
-        print(article)
-
-
+        imageInput.send_keys(os.getcwd() + "/image.jpg")
 
 
 username = os.getenv('USERNAME')
